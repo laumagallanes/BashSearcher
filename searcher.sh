@@ -65,7 +65,9 @@ function searchMachine (){
 function searchIP () {
 ipAddress="$1"
 echo -e "buscando por IP:$ipAddress"
-cat bundle.js  | grep "ip: \"$ipAddress\"" -B 3 | grep name | awk 'NF{print$NF}' | tr -d '"' | tr -d ','
+machineName="$(cat bundle.js  | grep "ip: \"$ipAddress\"" -B 3 | grep name | awk 'NF{print$NF}' | tr -d '"' | tr -d ',')"
+echo -e "\n${redColour}La maquina de la ip $ipAdress es ${endColour}${yellowColour}$machineName${endColour}"
+
 }
 
 #indicador
