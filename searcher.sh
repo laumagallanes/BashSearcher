@@ -14,8 +14,8 @@ main_url="https://htbmachines.github.io/bundle.js"
 
 function ctrl_c(){
   echo -e "\n\n${redColour}[!]saliendo...${endColour}\n"
-  echo -e "\t m)Buscar por nombre de maquina}"
-  echo -e "\t h)Panel de Aiuda"
+  echo -e "\t m) Buscar por nombre de maquina"
+  echo -e "\t h) Panel de Ayuda"
   exit 1
 }
 
@@ -23,9 +23,9 @@ function ctrl_c(){
 trap ctrl_c INT
 
 
-function panelAiuda(){
+function panelAyuda(){
   echo -e "\n [+] Se usa asi.."
-  echo -e "\th) para ayuida"
+  echo -e "\th) para Ayuda"
   echo -e "\tu) para Descargar o actualizar archivo"
   echo -e "\tm) para buscar una maquina"
   echo -e "\ti) Buscar por Direccion IP"
@@ -56,7 +56,7 @@ function updateFile(){
 
 function searchMachine (){
   machineName="$1"
-  echo -e "\n ${redColour}[+]${endColour}${greyColour}Listando propiedades de la maquina ${endColour}${blueColour} $machineName ${endColour}"
+  echo -e "\n ${redColour}[+]${endColour}${grayColour}Listando propiedades de la maquina ${endColour}${blueColour} $machineName ${endColour}"
 
   cat bundle.js  | awk "/name: \"$machineName\"/,/resuelta:/" | grep -vE "resuelta|id:|sku" | tr -d '"' | tr -d ',' | sed 's/^ *//'
   
@@ -66,7 +66,7 @@ function searchIP () {
 ipAddress="$1"
 echo -e "buscando por IP:$ipAddress"
 machineName="$(cat bundle.js  | grep "ip: \"$ipAddress\"" -B 3 | grep name | awk 'NF{print$NF}' | tr -d '"' | tr -d ',')"
-echo -e "\n${redColour}La maquina de la ip $ipAdress es ${endColour}${yellowColour}$machineName${endColour}"
+echo -e "\n${redColour}La maquina de la ip $ipAddress es ${endColour}${yellowColour}$machineName${endColour}"
 
 }
 
@@ -80,7 +80,7 @@ while getopts "m:i:uh" arg; do
     m) machineName=$OPTARG; let parameter_counter+=1;;
     u) let parameter_counter+=2;;
     i) ipAddress=$OPTARG; let parameter_counter+=3;;
-    h) panelAuida
+    h) panelAyuda; exit 0;;
   esac
 done
 
@@ -91,5 +91,5 @@ elif [ $parameter_counter -eq 2 ]; then
 elif [ $parameter_counter -eq 3 ]; then
   searchIP $ipAddress
 else
-  panelAiuda
+  panelAyuda
 fi
